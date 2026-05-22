@@ -29,11 +29,11 @@ jobs:
       - name: Baixar dependencias do pubspec
         run: flutter pub get
 
-      # CORREÇÃO DO ERRO: Atualiza a versão do Kotlin nativo antes de compilar
-      - name: Corrigir versao do Kotlin no Gradle
+      # Força a injeção da versão estável do Kotlin nas configurações do Gradle do Android
+      - name: Injetar versao estável do Kotlin
         run: |
-          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.24"/' android/build.gradle
-          sed -i 's/ext.kotlin_version =.*/ext.kotlin_version = "1.9.24"/' android/build.gradle
+          echo "ext.kotlin_version = '1.8.22'" > android/local.properties
+          sed -i 's/id "kotlin-android"/id "org.jetbrains.kotlin.android" version "1.8.22"/' android/app/build.gradle
 
       - name: Compilar APK original
         run: flutter build apk --release
