@@ -11,16 +11,16 @@ jobs:
       - name: Baixar codigo fonte
         uses: actions/checkout@v4
 
-      - name: Configurar Java Estavel
+      - name: Configurar Java SDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # Java 17 com Flutter 3.19.6 é a combinação perfeita para o Kotlin 1.7.10
+          java-version: '17' # Java correto para o Flutter 3.44.0
 
-      - name: Configurar Flutter de Compatibilidade
+      - name: Configurar Flutter Local
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
+          flutter-version: '3.44.0' # Versão idêntica ao do seu computador que reconhece 'WidgetStateProperty'
           cache: true
 
       - name: Limpar cache do projeto
