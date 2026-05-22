@@ -11,16 +11,16 @@ jobs:
       - name: Baixar codigo fonte
         uses: actions/checkout@v4
 
-      - name: Configurar Java SDK 17
+      - name: Configurar Java Estavel
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # Versão recomendada para o ecossistema do Flutter 3.44.0
+          java-version: '11' # O Java 11 evita que o Gradle antigo quebre por excesso de modernidade
 
-      - name: Configurar Flutter Local
+      - name: Configurar Flutter de Compatibilidade
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.0' # Sincronizado com a versão do seu computador
+          flutter-version: '3.19.6' # Força o uso da versão que aceita o seu código original
           cache: true
 
       - name: Limpar cache do projeto
