@@ -15,12 +15,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # Java correto para o Flutter 3.44.0
+          java-version: '17'
 
       - name: Configurar Flutter Local
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.0' # Versão idêntica ao do seu computador que reconhece 'WidgetStateProperty'
+          flutter-version: '3.44.0'
           cache: true
 
       - name: Limpar cache do projeto
@@ -28,6 +28,17 @@ jobs:
 
       - name: Baixar dependencias do pubspec
         run: flutter pub get
+
+      # CORREÇÃO DO ERRO: Modifica os arquivos de configuração do Gradle nativo na memória do servidor
+      - name: Corrigir versao do Kotlin no ambiente de build
+        run: |
+          if [ -f android/build.gradle ]; then
+            sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.24"/' android/build.gradle
+            sed -i 's/ext.kotlin_version=.*/ext.kotlin_version = "1.9.24"/' android/build.gradle
+          fi
+          if [ -f android/settings.gradle ]; then
+            sed -i 's/id "org.jetbrains.kotlin.android" version .*/id "org.jetbrains.kotlin.android" version "1.9.24" apply false/' android/settings.gradle
+          fi
 
       - name: Compilar APK original
         run: flutter build apk --release
