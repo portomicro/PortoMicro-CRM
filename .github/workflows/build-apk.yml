@@ -15,12 +15,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '11' # O Java 11 evita que o Gradle antigo quebre por excesso de modernidade
+          java-version: '17' # Java 17 com Flutter 3.19.6 é a combinação perfeita para o Kotlin 1.7.10
 
       - name: Configurar Flutter de Compatibilidade
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6' # Força o uso da versão que aceita o seu código original
+          flutter-version: '3.19.6'
           cache: true
 
       - name: Limpar cache do projeto
