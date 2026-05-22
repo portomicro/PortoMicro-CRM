@@ -20,7 +20,7 @@ jobs:
       - name: Configurar Flutter de Estabilidade
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0' # Versão compatível que aceita o Kotlin original do projeto
+          flutter-version: '3.22.0'
           cache: true
 
       - name: Limpar cache do projeto
@@ -28,6 +28,10 @@ jobs:
 
       - name: Baixar dependencias do pubspec
         run: flutter pub get
+
+      # Força o Flutter a gerar os arquivos de ligação nativa faltando na MainActivity
+      - name: Pre-compilar ligacoes nativas
+        run: flutter build bundle
 
       - name: Compilar APK original
         run: flutter build apk --release
