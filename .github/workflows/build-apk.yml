@@ -23,24 +23,29 @@ jobs:
           flutter-version: '3.22.0'
           cache: true
 
+      # DESTRUIDOR DE ERROS: Remove qualquer resquício da pasta antiga de Kotlin no servidor
+      - name: Remover arquivo Kotlin conflitante
+        run: |
+          rm -rf android/app/src/main/kotlin
+
+      # CRIADOR DO ARQUIVO COMPATÍVEL: Injeta a MainActivity limpa em Java direto na memória
+      - name: Criar MainActivity estavel em Java
+        run: |
+          mkdir -p android/app/src/main/java/com/flutex/admin
+          cat << 'EOF' > android/app/src/main/java/com/flutex/admin/MainActivity.java
+          package com.flutex.admin;
+
+          import io.flutter.embedding.android.FlutterActivity;
+
+          public class MainActivity extends FlutterActivity {
+          }
+          EOF
+
       - name: Limpar cache do projeto
         run: flutter clean
 
       - name: Baixar dependencias do pubspec
         run: flutter pub get
-
-      # CORREÇÃO DEFINITIVA: Cria a MainActivity correta direto na memória do servidor
-      - name: Corrigir MainActivity do Android
-        run: |
-          mkdir -p android/app/src/main/kotlin/com/flutex/admin
-          cat << 'EOF' > android/app/src/main/kotlin/com/flutex/admin/MainActivity.kt
-          package com.flutex.admin
-
-          import io.flutter.embedding.android.FlutterActivity
-
-          class MainActivity: FlutterActivity() {
-          }
-          EOF
 
       - name: Compilar APK original
         run: flutter build apk --release
