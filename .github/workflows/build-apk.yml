@@ -11,17 +11,18 @@ jobs:
       - name: Baixar codigo fonte
         uses: actions/checkout@v4
 
-      - name: Configurar Java SDK 17
+      # CORREÇÃO DO ERRO: Atualiza para o Java 21 exigido pelo Flutter 3.44.0
+      - name: Configurar Java SDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21' 
 
       - name: Configurar Flutter Local
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.0' # Sincronizado com a versão do seu computador
-          cache: false # Desativa o cache antigo para forçar o download limpo das peças faltando
+          flutter-version: '3.44.0'
+          cache: false
 
       - name: Limpar cache do projeto
         run: |
