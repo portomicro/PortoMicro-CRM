@@ -17,32 +17,16 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Configurar Flutter de Estabilidade
+      - name: Configurar Flutter Local
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'
-          cache: true
-
-      # DESTRUIDOR DE ERROS: Remove qualquer resquício da pasta antiga de Kotlin no servidor
-      - name: Remover arquivo Kotlin conflitante
-        run: |
-          rm -rf android/app/src/main/kotlin
-
-      # CRIADOR DO ARQUIVO COMPATÍVEL: Injeta a MainActivity limpa em Java direto na memória
-      - name: Criar MainActivity estavel em Java
-        run: |
-          mkdir -p android/app/src/main/java/com/flutex/admin
-          cat << 'EOF' > android/app/src/main/java/com/flutex/admin/MainActivity.java
-          package com.flutex.admin;
-
-          import io.flutter.embedding.android.FlutterActivity;
-
-          public class MainActivity extends FlutterActivity {
-          }
-          EOF
+          flutter-version: '3.44.0' # Sincronizado com a versão do seu computador
+          cache: false # Desativa o cache antigo para forçar o download limpo das peças faltando
 
       - name: Limpar cache do projeto
-        run: flutter clean
+        run: |
+          flutter clean
+          rm -rf android/.gradle
 
       - name: Baixar dependencias do pubspec
         run: flutter pub get
