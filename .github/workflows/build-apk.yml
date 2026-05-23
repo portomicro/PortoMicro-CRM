@@ -29,9 +29,10 @@ jobs:
       - name: Baixar dependencias do pubspec
         run: flutter pub get
 
-      # Força o Flutter a gerar os arquivos de ligação nativa faltando na MainActivity
-      - name: Pre-compilar ligacoes nativas
-        run: flutter build bundle
+      # Cria o arquivo local.properties apontando explicitamente o SDK para o Android reconhecer o 'io.flutter'
+      - name: Vincular caminhos do Flutter SDK ao Android
+        run: |
+          echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
 
       - name: Compilar APK original
         run: flutter build apk --release
